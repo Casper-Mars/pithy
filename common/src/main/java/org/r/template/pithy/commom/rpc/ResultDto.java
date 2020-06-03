@@ -1,5 +1,7 @@
 package org.r.template.pithy.commom.rpc;
 
+import org.r.template.pithy.commom.enums.ResultCodeEnum;
+
 /**
  * date 2020/6/2 下午2:22
  *
@@ -68,5 +70,8 @@ public class ResultDto<T> {
         return new ResultDto<>(code, msg, data);
     }
 
+    public static <T> ResultDto<T> error(ResultCodeEnum resultCodeEnum) {
+        return error(resultCodeEnum.getCode(), resultCodeEnum.getMsg());
+    }
 
 }

@@ -31,7 +31,9 @@ public class AuthCommonAutoConfig {
     }
 
 
-
-
+    @Bean
+    public TokenAop tokenAop(JwtService jwtService) {
+        return new TokenAop(jwtService);
+    }
 
 }

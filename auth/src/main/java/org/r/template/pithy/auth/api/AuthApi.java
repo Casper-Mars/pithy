@@ -70,13 +70,12 @@ public class AuthApi {
      * @return
      */
     @GetMapping("/permissions")
-    public ResultDto<List<UserPermissionDto>> permissions(@Token String token) {
+    public ResultDto<List<UserPermissionDto>> permissions(@Token Claims token) {
 
-        Claims claims = jwtService.parseJWT(token);
         /*判断token*/
         long userId = 0L;
         try {
-            userId = Long.parseLong(claims.getId());
+            userId = Long.parseLong(token.getId());
         } catch (Exception e) {
             return ResultDto.error(ResultCodeEnum.AUTH_NOT_PERMIT.getCode(), "令牌数据不正确");
         }

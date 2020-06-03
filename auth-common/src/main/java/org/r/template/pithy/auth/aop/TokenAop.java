@@ -5,6 +5,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.r.template.pithy.auth.service.JwtService;
+import org.r.template.pithy.commom.enums.ResultCodeEnum;
+import org.r.template.pithy.commom.rpc.ResultDto;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,6 +25,12 @@ import java.lang.reflect.Method;
 @Aspect
 public class TokenAop {
 
+    private final JwtService jwtService;
+
+    public TokenAop(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+
     @Pointcut(value = "execution(public * org.r.template.pithy.*.api.*.*(..))")
     public void pointCut(){
 
@@ -32,6 +42,11 @@ public class TokenAop {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         String token = request.getHeader("token");
+        if(StringUtils.isEmpty(token)){
+            return ResultDto.<String>error(ResultCodeEnum.AUTH_NOT_PERMIT);
+        }
+        jwtService.parseJWT(token);
+
 
 
         Object[] args = joinPoint.getArgs();
@@ -47,6 +62,11 @@ public class TokenAop {
 
         return joinPoint.proceed();
     }
+
+
+
+
+
 
 
 }
