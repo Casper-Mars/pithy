@@ -9,7 +9,6 @@ import org.r.template.pithy.auth.service.JwtService;
 import org.r.template.pithy.commom.enums.ResultCodeEnum;
 import org.r.template.pithy.commom.rpc.ResultDto;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
